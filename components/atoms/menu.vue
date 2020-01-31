@@ -18,7 +18,23 @@
       @click="rootMenuClick"
       v-bind="menu.root"
       :stroke-width="menu.root.strokeWidth"
+      fill="url(#image)"
     />
+    <pattern
+      id="image"
+      x="100%"
+      y="100%"
+      height="100%"
+      width="100%"
+      >
+      <image
+        href="https://api.iconify.design/cil:task.svg"
+        x="25"
+        y="25"
+        height="100"
+        width="100"
+      />
+    </pattern>
   </svg>
 </template>
 
