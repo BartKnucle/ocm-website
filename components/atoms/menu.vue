@@ -8,46 +8,66 @@
       v-bind="item"
       fill='white'
     /> -->
-     <polygon
+    <g
       v-for="child in menuItems"
       :key="child.id"
-      v-bind="child"
-      :stroke-width="child.strokeWidth"
-    />
+    >
+      <polygon
+        v-bind="child"
+        :stroke-width="child.strokeWidth"
+      />
+      <component
+        :is="child.icon.name"
+        v-bind="child.icon"
+      />
+    </g>
     <rect
       @click="rootMenuClick"
       v-bind="menu.root"
       :stroke-width="menu.root.strokeWidth"
-      fill="url(#image)"
     />
-    <pattern
-      id="image"
-      x="100%"
-      y="100%"
-      height="100%"
-      width="100%"
-      >
-      <image
-        href="https://api.iconify.design/cil:task.svg"
-        x="25"
-        y="25"
-        height="100"
-        width="100"
-      />
-    </pattern>
+    <Logo
+      @click="rootMenuClick"
+      :x = "menu.root.x + menu.root.width * 0.25 / 2"
+      :y = "menu.root.y + menu.root.height * 0.25  / 2"
+      :width = "menu.root.width * 0.75"
+      :height = "menu.root.height * 0.75 "
+    />
   </svg>
 </template>
 
 <script>
+const loadIcon = (icon) => {
+  return {
+      [icon]: () => import(`~/assets/svg/icons/${icon}.svg`)
+  }
+}
+import Logo from '~/assets/svg/ocm.svg'
 const anime = require('animejs').default
 export default {
+  components: {
+    Logo,
+    ...loadIcon('list'),
+    ...loadIcon('newspaper'),
+    ...loadIcon('logo-github'),
+    ...loadIcon('logo-facebook'),
+    ...loadIcon('logo-slack'),
+    ...loadIcon('logo-npm'),
+    ...loadIcon('logo-twitter'),
+    ...loadIcon('information-circle'),
+    ...loadIcon('cloud-download')
+  },
   data () {
     const colors = {
-      one: '#FF595E',
-      two: '#FFCA3A',
-      three: '#1982C4',
-      four: '#8DA210',
-      five: '#6A4C93'
+      one: '#3081FF',
+      two: '#FF6049',
+      three: '#FFBA30',
+      four: '#9ECC12',
+      five: '#6A4C93',
+      six: '#184080',
+      seven: '#7CAFFF',
+      eight: '#FFFFFF',
+      nine: '#333333'
     }
 
     return {
@@ -77,73 +97,136 @@ export default {
           y: 500,
           width: 100,
           height: 100,
-          fill: colors.one,
-          stroke: colors.two,
+          fill: colors.eight,
+          stroke: colors.nine,
           rx: 100,
           strokeWidth: 7,
           children: [
             {
               id: 'menu1',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.one,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'list',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu2',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.two,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'newspaper',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu3',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.three,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'logo-github',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu4',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.four,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'logo-facebook',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu5',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.five,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'logo-slack',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu6',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.six,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'logo-npm',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu7',
               square: [],
-              fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              fill: colors.seven,
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'logo-twitter',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu8',
               square: [],
               fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'information-circle',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             },
             {
               id: 'menu9',
               square: [],
               fill: 'white',
-              stroke: colors.two,
-              strokeWidth: 7
+              stroke: colors.nine,
+              strokeWidth: 7,
+              icon: {
+                name: 'cloud-download',
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+              }
             }
           ]
         }
@@ -184,33 +267,40 @@ export default {
         const x = index % this.grid.side
         const y = Math.floor(index / this.grid.side)
 
+        const width = this.grid.width / this.grid.side
+        const height = this.grid.height / this.grid.side
+
         // Translated positions to the center
         const transX = x - (Math.ceil(this.grid.side / 2) - this.grid.side % 2 * 1)
         const transY = y - (Math.ceil(this.grid.side / 2) - this.grid.side % 2 * 1)
 
         //  console.log(`x: ${transX}, y: ${transY}`)
-
+        
         //  Set the center of each square
-        const centerX = transX * this.grid.width / this.grid.side + this.grid.x
-        const centerY = transY * this.grid.height / this.grid.side + this.grid.y
+        const centerX = transX * width + this.grid.x
+        const centerY = transY * height + this.grid.y
 
-        //  console.log(`Center x: ${centerX}, Center y: ${centerY}`)
+        // high left corner positon
+        const cornerX = centerX - width / 2
+        const cornerY = centerY - height / 2
+
+        //  console.log(`Center x: ${centerX}, Center y: ${centerY}`)       
         const square = [
           {
-            x: centerX - this.grid.width / this.grid.side / 2,
-            y: centerY - this.grid.height / this.grid.side / 2
+            x: centerX - width / 2,
+            y: centerY - height / 2
           },
           {
-            x: centerX + this.grid.width / this.grid.side / 2,
-            y: centerY - this.grid.height / this.grid.side / 2
+            x: centerX + width / 2,
+            y: centerY - height / 2
           },
           {
-            x: centerX + this.grid.width / this.grid.side / 2,
-            y: centerY + this.grid.height / this.grid.side / 2
+            x: centerX + width / 2,
+            y: centerY + height / 2
           },
           {
-            x: centerX - this.grid.width / this.grid.side / 2,
-            y: centerY + this.grid.height / this.grid.side / 2
+            x: centerX - width / 2,
+            y: centerY + height / 2
           }
         ]
         let points = ''
@@ -221,10 +311,14 @@ export default {
 
         this.grid.items.push({
           id: index,
+          width,
+          height,
           points,
           square,
           centerX,
-          centerY
+          centerY,
+          cornerX,
+          cornerY
         })
       }
     },
@@ -284,8 +378,8 @@ export default {
       const animation = {
         targets: this.menu.root,
         rx: 0,
-        fill: this.colors.one,
-        stroke: this.colors.two,
+        //  fill: this.colors.one,
+        //  stroke: this.colors.two,
         easing: 'linear',
         duration: 200,
         begin: (anim) => {},
@@ -300,8 +394,8 @@ export default {
           anime(animation)
           break
         case 'end':
-          animation.fill = this.colors.three
-          animation.stroke = this.colors.two
+          //  animation.fill = this.colors.three
+          //  animation.stroke = this.colors.two
           animation.rx = 100
           animation.complete = (anim) => {
             this.menu.root.state = 'start'
@@ -321,6 +415,10 @@ export default {
     startChilds () {
       this.menu.root.children.forEach((child) => {
         if (!child.status || child.status !== 'start') {
+          child.icon.x = this.grid.items[child.position].cornerX
+          child.icon.y = this.grid.items[child.position].cornerY
+          child.icon.width = this.grid.items[child.position].width
+          child.icon.height = this.grid.items[child.position].height
           child.square = []
           for (let index = 0; index < this.grid.items[child.position].square.length; index++) {
             child.square.push({
@@ -342,8 +440,8 @@ export default {
 
           const animation = {
             targets: child,
-            fill: this.colors.three,
-            stroke: this.colors.two,
+            //  fill: this.colors.three,
+            //  stroke: this.colors.two,
             easing: 'linear',
             duration: 200
           }
@@ -356,6 +454,17 @@ export default {
     endChilds () {
       this.menu.root.children.forEach((child) => {
         child.status = 'end'
+        const iconAnimation = {
+          targets: child.icon,
+          x: this.grid.items[child.position].centerX,
+          y: this.grid.items[child.position].centerY,
+          width: 0,
+          height: 0,
+          easing: 'linear',
+          duration: 200
+        }
+        anime(iconAnimation)
+
         for (let index = 0; index < this.grid.items[child.position].square.length; index++) {
           const animation = {
             targets: child.square[index],
